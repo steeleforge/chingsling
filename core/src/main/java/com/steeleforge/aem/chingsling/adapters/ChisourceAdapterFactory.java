@@ -28,67 +28,67 @@ import com.steeleforge.aem.chingsling.resource.impl.ChisourceImpl;
 @Component(metatype = false)
 @Service(value = AdapterFactory.class)
 public class ChisourceAdapterFactory implements AdapterFactory {
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	private static final String SERVICENAME = "AdapterFactory";
-	private static final Class<Chisource> CHISOURCE = Chisource.class;
-	
-	@Reference
-	ResourceResolverFactory resourceResolverFactory;
-	
-	@Reference
-	ServiceUserMapper serviceUserMapper;
-	
-	@Property(name="adapters")
-	public static final String[] ADAPTERS = { CHISOURCE.getName() };
-	
-	@Property(name="adaptables")
-	public static final String[] ADAPTABLES = { 
-		Resource.class.getName(), 
-		Node.class.getName() 
-	};
-	
-	Map<String, Object> serviceMap = new HashMap<String, Object>();
-	
-	@Override
-	public <AdapterType> AdapterType getAdapter(Object adaptable,
-			Class<AdapterType> type) {
-		if (null == adaptable) return null;
-		if (adaptable instanceof Resource) {
-			return getAdapter((Resource)adaptable, type);
-		}
-		if (adaptable instanceof Node) {
-			return getAdapter((Node)adaptable, type);
-		}
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <AdapterType> AdapterType getAdapter(Resource adaptable,
-			Class<AdapterType> type) {
-		return (AdapterType) new ChisourceImpl(adaptable);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <AdapterType> AdapterType getAdapter(Node adaptable,
-			Class<AdapterType> type) {
-		ResourceResolver rr = null;
-		Resource resource = null;
-		try {
-			rr = resourceResolverFactory.getServiceResourceResolver(serviceMap);
-			resource = λ.getResource(rr, adaptable.getPath())
-					.orElse(new NonExistingResource(rr, adaptable.getPath()));
-		} catch (LoginException e) {
-			LOG.debug(e.getMessage());
-		} catch (RepositoryException e) {
-			LOG.debug(e.getMessage());
-		} finally {
-			rr.close();
-		}
-		return (AdapterType) new ChisourceImpl(resource);
-	}
-	
-	@Activate
-	public void activate() {
-		this.serviceMap.put(ResourceResolverFactory.SUBSERVICE, SERVICENAME);
-	}
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private static final String SERVICENAME = "AdapterFactory";
+    private static final Class<Chisource> CHISOURCE = Chisource.class;
+    
+    @Reference
+    ResourceResolverFactory resourceResolverFactory;
+    
+    @Reference
+    ServiceUserMapper serviceUserMapper;
+    
+    @Property(name="adapters")
+    public static final String[] ADAPTERS = { CHISOURCE.getName() };
+    
+    @Property(name="adaptables")
+    public static final String[] ADAPTABLES = { 
+        Resource.class.getName(), 
+        Node.class.getName() 
+    };
+    
+    Map<String, Object> serviceMap = new HashMap<String, Object>();
+    
+    @Override
+    public <AdapterType> AdapterType getAdapter(Object adaptable,
+            Class<AdapterType> type) {
+        if (null == adaptable) return null;
+        if (adaptable instanceof Resource) {
+            return getAdapter((Resource)adaptable, type);
+        }
+        if (adaptable instanceof Node) {
+            return getAdapter((Node)adaptable, type);
+        }
+        return null;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <AdapterType> AdapterType getAdapter(Resource adaptable,
+            Class<AdapterType> type) {
+        return (AdapterType) new ChisourceImpl(adaptable);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <AdapterType> AdapterType getAdapter(Node adaptable,
+            Class<AdapterType> type) {
+        ResourceResolver rr = null;
+        Resource resource = null;
+        try {
+            rr = resourceResolverFactory.getServiceResourceResolver(serviceMap);
+            resource = λ.getResource(rr, adaptable.getPath())
+                    .orElse(new NonExistingResource(rr, adaptable.getPath()));
+        } catch (LoginException e) {
+            LOG.debug(e.getMessage());
+        } catch (RepositoryException e) {
+            LOG.debug(e.getMessage());
+        } finally {
+            rr.close();
+        }
+        return (AdapterType) new ChisourceImpl(resource);
+    }
+    
+    @Activate
+    public void activate() {
+        this.serviceMap.put(ResourceResolverFactory.SUBSERVICE, SERVICENAME);
+    }
 }

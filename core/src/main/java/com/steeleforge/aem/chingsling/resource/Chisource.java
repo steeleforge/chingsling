@@ -10,8 +10,8 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 
 public interface Chisource extends Adaptable {
-	Optional<String>  getPath();
-	Optional<String>  getName();
+    Optional<String>  getPath();
+    Optional<String>  getName();
     Optional<Resource> getParent();
     Stream<Resource> listChildren();
     Stream<Resource> getChildren();
