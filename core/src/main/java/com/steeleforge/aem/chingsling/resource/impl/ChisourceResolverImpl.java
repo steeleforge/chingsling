@@ -4,27 +4,44 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.sling.adapter.annotations.Adaptable;
+import org.apache.sling.adapter.annotations.Adapter;
 import org.apache.sling.api.adapter.SlingAdaptable;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.Model;
 
 import com.steeleforge.aem.chingsling.delegates.ResourceResolverDelegate;
 import com.steeleforge.aem.chingsling.resource.ChisourceResolver;
 
+@Adaptable(
+		adaptableClass = ChisourceResolver.class,
+		adapters = {
+			@Adapter({ ResourceResolver.class})
+		}
+)
+@Model(adaptables=Resource.class)
 public class ChisourceResolverImpl extends SlingAdaptable implements ChisourceResolver {
+	@Inject
+	private Resource resource;
 	private ResourceResolver resourceResolver;
 	
 	@SuppressWarnings("unused")
 	private ChisourceResolverImpl() {
-		// NO-OP
+		if (null != resource) {
+			this.resourceResolver = resource.getResourceResolver();
+		}
 	}
 	public ChisourceResolverImpl(ResourceResolver resourceResolver) {
 		super();
-		this.resourceResolver = resourceResolver;
+		if (null == this.resourceResolver) {
+			this.resourceResolver = resourceResolver;
+		}
 	}
 	@Override
 	public Optional<Resource> resolve(HttpServletRequest request, String absPath) {

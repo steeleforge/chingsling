@@ -3,6 +3,8 @@ package com.steeleforge.aem.chingsling.resource.impl;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.inject.Inject;
+
 import org.apache.sling.adapter.annotations.Adaptable;
 import org.apache.sling.adapter.annotations.Adapter;
 import org.apache.sling.api.adapter.SlingAdaptable;
@@ -10,6 +12,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Model;
 
 import com.steeleforge.aem.chingsling.λ;
 import com.steeleforge.aem.chingsling.resource.Chisource;
@@ -20,7 +23,9 @@ import com.steeleforge.aem.chingsling.resource.Chisource;
 		@Adapter({ Resource.class, ValueMap.class })
 	}
 )
+@Model(adaptables=Resource.class)
 public class ChisourceImpl extends SlingAdaptable implements Chisource {
+	@Inject
 	private Resource resource;
 	
 	private ChisourceImpl() {
@@ -28,7 +33,9 @@ public class ChisourceImpl extends SlingAdaptable implements Chisource {
 	}
 	public ChisourceImpl(Resource resource) {
 		this();
-		this.resource = resource;
+		if (null == this.resource) {
+			this.resource = resource;
+		}
 	}
 
 	@Override
