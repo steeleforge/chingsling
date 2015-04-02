@@ -1,8 +1,12 @@
 package com.steeleforge.aem.chingsling;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +22,34 @@ import com.steeleforge.aem.chingsling.delegates.ResourceResolverDelegate;
 
 public enum λ {
 	INSTANCE;
+	
+	public static final <T> Optional<T> ofNullable(T value) {
+		return Optional.ofNullable(value);
+	}
+
+	public static final <T> Stream<T> stream(Iterable<T> iterable, boolean parallel) {
+		if (null == iterable) {
+			return Stream.empty();
+		}
+		return StreamSupport.stream(iterable.spliterator(), parallel);
+	}
+	
+	public static final <T> Stream<T> stream(Iterator<T> iterator, boolean parallel) {
+		if (null == iterator) {
+			return Stream.empty();
+		}
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(iterator
+						, Spliterator.ORDERED), parallel);
+	}
+	
+	public static final <T> Stream<T> stream(Iterable<T> iterable) {
+		return stream(iterable, true);
+	}
+	
+	public static final <T> Stream<T> stream(Iterator<T> iterator) {
+		return stream(iterator, true);
+	}
 	
 	public static final Optional<Resource> resolve(ResourceResolver resourceResolver, HttpServletRequest request, String absPath) {
 		return ResourceResolverDelegate.resolve(resourceResolver, request, absPath);

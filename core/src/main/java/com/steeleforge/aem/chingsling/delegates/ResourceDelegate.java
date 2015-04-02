@@ -8,31 +8,33 @@ import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 
+import com.steeleforge.aem.chingsling.λ;
+
 public enum ResourceDelegate {
 	INSTANCE;
 	
-	public static final Optional<String> getPath(Resource resource) {
+	public static final Optional<String> getPath(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getPath());
+		return λ.ofNullable(resource.getPath());
 	}
 	
-	public static final Optional<String> getName(Resource resource) {
+	public static final Optional<String> getName(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getName());
+		return λ.ofNullable(resource.getName());
 	}
 	
-	public static final Optional<Resource> getParent(Resource resource) {
+	public static final Optional<Resource> getParent(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getParent());
+		return λ.ofNullable(resource.getParent());
 	}
 
-	public static final Stream<Resource> listChildren(Resource resource) {
+	public static final Stream<Resource> listChildren(final Resource resource) {
 		if (null == resource) {
 			return Stream.empty();
 		}
@@ -40,7 +42,7 @@ public enum ResourceDelegate {
 				, resource);
 	}
 	
-	public static final Stream<Resource> getChildren(Resource resource) {
+	public static final Stream<Resource> getChildren(final Resource resource) {
 		if (null == resource) {
 			return Stream.empty();
 		}
@@ -48,7 +50,7 @@ public enum ResourceDelegate {
 				, resource);
 	}
 	
-	public static final Optional<Resource> getChild(Resource resource, String relPath) {
+	public static final Optional<Resource> getChild(final Resource resource, final String relPath) {
 		if (null == resource) {
 			return Optional.empty();
 		}
@@ -56,41 +58,41 @@ public enum ResourceDelegate {
 						resource.getResourceResolver(), relPath);
 	}
 	
-	public static final Optional<String> getResourceType(Resource resource) {
+	public static final Optional<String> getResourceType(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getResourceType());
+		return λ.ofNullable(resource.getResourceType());
 	}
 
 	
-	public static final Optional<String> getResourceSuperType(Resource resource) {
+	public static final Optional<String> getResourceSuperType(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
 		return ResourceResolverDelegate.getParentResourceType(resource.getResourceResolver(), resource);
 	}
 	
-	public static final Optional<ResourceMetadata> getResourceMetadata(Resource resource) {
+	public static final Optional<ResourceMetadata> getResourceMetadata(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getResourceMetadata());
+		return λ.ofNullable(resource.getResourceMetadata());
 	}
 
 	
-	public static final Optional<ResourceResolver> getResourceResolver(Resource resource) {
+	public static final Optional<ResourceResolver> getResourceResolver(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getResourceResolver());
+		return λ.ofNullable(resource.getResourceResolver());
 	}
 
 	
-	public static final Optional<ValueMap> getValueMap(Resource resource) {
+	public static final Optional<ValueMap> getValueMap(final Resource resource) {
 		if (null == resource) {
 			return Optional.empty();
 		}
-		return Optional.ofNullable(resource.getValueMap());
+		return λ.ofNullable(resource.getValueMap());
 	}
 }
