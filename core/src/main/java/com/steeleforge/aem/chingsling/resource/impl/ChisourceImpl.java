@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.sling.adapter.annotations.Adaptable;
 import org.apache.sling.adapter.annotations.Adapter;
 import org.apache.sling.api.adapter.SlingAdaptable;
+import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -155,6 +156,13 @@ public class ChisourceImpl extends SlingAdaptable implements Chisource {
         if (null == this.resource) {
             return Optional.empty();
         }
-        return Optional.ofNullable(resource);
+        return λ.ofNullable(resource);
     }
+	@Override
+	public Optional<ModifiableValueMap> getModifiableValueMap() {
+        if (null == this.resource) {
+            return Optional.empty();
+        }
+		return λ.ofNullable(resource.adaptTo(ModifiableValueMap.class));
+	}
 }

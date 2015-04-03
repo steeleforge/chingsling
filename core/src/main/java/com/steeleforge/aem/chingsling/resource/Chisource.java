@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.sling.api.adapter.Adaptable;
+import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -24,4 +25,5 @@ public interface Chisource extends Adaptable {
     Optional<ResourceResolver> getResourceResolver();
     Optional<ValueMap> getValueMap();
     Optional<Resource> getResource();
+    Optional<ModifiableValueMap> getModifiableValueMap();
 }
